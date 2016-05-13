@@ -1,13 +1,14 @@
 package com.codurance.bowlingkata.full_scoring
 
-object BowlingScoreCalculator {
+object BowlingFullScoreCalculator {
 
 	def scoreFor(rolls: String): Int = totalScore(rolls.split("").toList)
 
 	private def totalScore(rolls: List[String], index: Int = 0, score: Int = 0): Int = {
-		lazy val STRIKE = ("X", () => 10 + if_(index + numberOfPreviousStrikes() < 18, rollScoreAt(index + 1) + rollScoreAt(index + 2)))
-		lazy val SPARE = ("/", () => 10 - rollScoreAt(index - 1) + if_(index < 19, rollScoreAt(index + 1)))
 		lazy val MISS  = "-"
+		lazy val SPARE = ("/", () => 10 - rollScoreAt(index - 1) + if_(index < 19, rollScoreAt(index + 1)))
+		lazy val STRIKE = ("X", () => 10 + if_(index + numberOfPreviousStrikes() < 18,
+												rollScoreAt(index + 1) + rollScoreAt(index + 2)))
 
 		def numberOfPreviousStrikes(): Int = rolls.mkString.take(index).count(_ == 'X')
 

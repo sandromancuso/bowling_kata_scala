@@ -1,12 +1,12 @@
 package com.codurance.bowlingkata.partial_scoring
 
 import com.codurance.UnitSpec
-import BowlingScoreCalculator.scoreFor
+import BowlingPartialScoreCalculator.scoreFor
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class BowlingScoreCalculatorShould extends UnitSpec {
+class BowlingPartialScoreCalculatorShould extends UnitSpec {
 
 	"calculate scores with no strikes or spares" in {
 		scoreFor("1") should be (1)
