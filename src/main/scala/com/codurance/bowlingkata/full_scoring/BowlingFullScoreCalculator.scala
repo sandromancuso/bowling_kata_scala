@@ -21,11 +21,11 @@ object BowlingFullScoreCalculator {
 			}
 
 		rolls.drop(index) match {
-			case List(STRIKE._1, _*) => totalScore(rolls, index + 1, score + STRIKE._2())
-			case List(SPARE._1, _*)  => totalScore(rolls, index + 1, score + SPARE._2())
-			case List(MISS, _*)      => totalScore(rolls, index + 1, score)
-			case List(n, _*)         => totalScore(rolls, index + 1, score + n.toInt)
-			case List()              => score
+			case STRIKE._1 :: _ => totalScore(rolls, index + 1, score + STRIKE._2())
+			case SPARE._1 :: _  => totalScore(rolls, index + 1, score + SPARE._2())
+			case MISS :: _      => totalScore(rolls, index + 1, score)
+			case n :: _         => totalScore(rolls, index + 1, score + n.toInt)
+			case List()         => score
 		}
 	}
 
