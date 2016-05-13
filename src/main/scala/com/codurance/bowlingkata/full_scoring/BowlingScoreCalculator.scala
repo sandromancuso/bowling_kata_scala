@@ -14,9 +14,9 @@ object BowlingScoreCalculator {
 		def rollScoreAt(index: Int): Int =
 			rolls(index) match {
 				case STRIKE._1 => 10
-				case SPARE._1 => 10 - rolls(index - 1).toInt
-				case MISS => 0
-				case s => s.toInt
+				case SPARE._1  => 10 - rolls(index - 1).toInt
+				case MISS      => 0
+				case pins      => pins.toInt
 			}
 
 		rolls.drop(index) match {
