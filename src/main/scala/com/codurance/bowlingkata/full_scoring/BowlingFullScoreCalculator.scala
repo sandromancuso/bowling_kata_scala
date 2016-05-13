@@ -8,11 +8,11 @@ object BowlingFullScoreCalculator {
 		lazy val MISS  = "-"
 		lazy val SPARE = ("/", () => 10 - rollScoreAt(index - 1) + if_(index < 19, rollScoreAt(index + 1)))
 		lazy val STRIKE = ("X", () => 10 + if_(index + numberOfPreviousStrikes() < 18,
-												rollScoreAt(index + 1) + rollScoreAt(index + 2)))
+                                               rollScoreAt(index + 1) + rollScoreAt(index + 2)))
 
-		def numberOfPreviousStrikes(): Int = rolls.mkString.take(index).count(_ == 'X')
+		def numberOfPreviousStrikes() = rolls.mkString.take(index).count(_ == 'X')
 
-		def rollScoreAt(index: Int): Int =
+		def rollScoreAt(index: Int) =
 			rolls(index) match {
 				case STRIKE._1 => 10
 				case SPARE._1  => 10 - rolls(index - 1).toInt
