@@ -12,7 +12,7 @@ object BowlingFullScoreCalculator {
 
 		def numberOfPreviousStrikes() = rolls.mkString.take(index).count(_ == 'X')
 
-		def rollScoreAt(index: Int) =
+		def rollScoreAt(index: Int): Int =
 			rolls(index) match {
 				case STRIKE._1 => 10
 				case SPARE._1  => 10 - rolls(index - 1).toInt

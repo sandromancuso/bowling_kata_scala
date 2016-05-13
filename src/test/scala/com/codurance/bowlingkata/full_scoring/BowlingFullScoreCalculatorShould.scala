@@ -2,10 +2,7 @@ package com.codurance.bowlingkata.full_scoring
 
 import com.codurance.UnitSpec
 import com.codurance.bowlingkata.full_scoring.BowlingFullScoreCalculator.scoreFor
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 
-@RunWith(classOf[JUnitRunner])
 class BowlingFullScoreCalculatorShould extends UnitSpec {
 
 	"calculate scores with no strikes or spares" in {
