@@ -4,33 +4,29 @@ object BowlingScoreCalculator {
 
 	def scoreFor(rolls: String): Int = totalScore(rolls.split("").toList)
 
-	def totalScore(rolls: List[String], index: Int = 0, score: Int = 0): Int = {
+	private def totalScore(rolls: List[String], index: Int = 0, score: Int = 0): Int = {
+		lazy val STRIKE = ("X", () => 10 + if_(index + numberOfPreviousStrikes() < 18, rollScoreAt(index + 1) + rollScoreAt(index + 2)))
+		lazy val SPARE = ("/", () => 10 - rollScoreAt(index - 1) + if_(index < 19, rollScoreAt(index + 1)))
+		lazy val MISS  = "-"
 
-		def numberOfPreviousStrikes(): Int = rolls.mkString.take(index).count(_ == STRIKE.charAt(0))
-		def ball(index: Int): Int = valueOf(rolls(index), index)
-		def strike(): Int = 10 + if_(index + numberOfPreviousStrikes < 18, ball(index + 1) + ball(index + 2))
-		def spare(): Int = 10 - valueOf(rolls(index - 1), index - 1) + if_(index < 19, ball(index + 1))
+		def numberOfPreviousStrikes(): Int = rolls.mkString.take(index).count(_ == 'X')
 
-		def valueOf(s: String, index: Int): Int =
-			s match {
-				case STRIKE => 10
-				case SPARE => 10 - rolls(index - 1).toInt
+		def rollScoreAt(index: Int): Int =
+			rolls(index) match {
+				case STRIKE._1 => 10
+				case SPARE._1 => 10 - rolls(index - 1).toInt
 				case MISS => 0
-				case _ => s.toInt
+				case s => s.toInt
 			}
 
 		rolls.drop(index) match {
-			case List(STRIKE, _*) => totalScore(rolls, index + 1, score + strike)
-			case List(SPARE, _*)  => totalScore(rolls, index + 1, score + spare)
-			case List(MISS, _*)   => totalScore(rolls, index + 1, score)
-			case List(n, _*)      => totalScore(rolls, index + 1, score + n.toInt)
-			case List() => score
+			case List(STRIKE._1, _*) => totalScore(rolls, index + 1, score + STRIKE._2())
+			case List(SPARE._1, _*)  => totalScore(rolls, index + 1, score + SPARE._2())
+			case List(MISS, _*)      => totalScore(rolls, index + 1, score)
+			case List(n, _*)         => totalScore(rolls, index + 1, score + n.toInt)
+			case List()              => score
 		}
 	}
 
-	val STRIKE = "X"
-	val SPARE = "/"
-	val MISS  = "-"
-
-	def if_(condition: Boolean, ifTrue: => Int): Int = if (condition) ifTrue else 0
+	private def if_(condition: Boolean, ifTrue: => Int): Int = if (condition) ifTrue else 0
 }
